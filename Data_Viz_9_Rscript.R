@@ -25,9 +25,13 @@ pol.dat <- pol.dat %>% filter(!is.na(Age..years.),
 
 
 #plot one: sablefish length by weight
-ggplot(data=sable) +aes(x=Weight..gm., y=Length..mm.)+ geom_point()
+g1 <- ggplot(data=sable) +aes(y=Weight..gm., x=Length..mm.) + geom_point() +theme_cowplot(14)+facet_wrap(~Sex) +theme(text=element_text(family="Times New Roman"))+
+  labs(x="Length(mm)", y="Weight(gm)")
 
 #plot two, count the number of species
 
-ggplot(data=goa) +aes(x=Common.Name)+ 
+g2 <- gplot(data=goa)+aes(x=Common.Name)+ geom_bar() +
+  coord_flip()+
+  theme_cowplot(14) +theme(text=element_text(family="Times New Roman"))+
+  labs(y = "Abundance", x="Species")
 
