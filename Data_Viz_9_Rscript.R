@@ -26,10 +26,36 @@ ggplot(data=sable) +aes(y=Weight..gm., x=Length..mm.) + geom_point()+facet_wrap(
   scale_y_continuous(limits=c(-10, 6000), expand=c(0,0))  +theme_cowplot(14)+
   theme(plot.margin=margin(t=9, r=13, unit="pt"))
 
+#the real deal attempt 1 -BAD
 p1+ scale_x_continuous (limits=c(250,1000), expand=expansion (mult = c(0.05,0))) +
   scale_y_continuous(limits=c(0, 6000), expand=c(0,0))  +theme_cowplot(14)+
-  theme(plot.margin=margin(t=9, r=18, b=9, l=9, unit="pt"), panel.spacing=unit(1.1, "lines")) #the margins and space between plots
-  
+  theme(plot.margin=margin(t=9, r=18, b=9, l=9, unit="pt"), panel.spacing=unit(1.1, "lines"))+ #the margins and space between plots
+  theme(text=element_text(family="Times New Roman"))
+
+#the real deal attempt 2
+#separate into male and femalae plots
+sable_f <- sable %>% filter(Sex=="Female")
+sable_m <- sable %>% filter(Sex=="Male")
+#make individual graphs
+p1.0 <- ggplot(data=sable) +aes(y=Weight..gm., x=Length..mm.) + geom_point() +
+  labs(x="Length(mm)", y="Weight(gm)") +theme_cowplot(14) + theme(text=element_text(family="Times New Roman"))
+p1.0
+
+p1.f <- ggplot(data=sable_f) +aes(y=Weight..gm., x=Length..mm.) + geom_point() +
+  labs(x="Length(mm)", y="Weight(gm)") +theme_cowplot(14) + theme(text=element_text(family="Times New Roman")) +
+  scale_x_continuous (limits=c(200,1000), expand=expansion (mult = c(0.05,0))) +
+  scale_y_continuous(limits=c(0, 6000), expand=c(0,0))  +theme_cowplot(14)+ #need to add in margin expander
+  theme(plot.margin=margin(t=9, r=16, l=9, b=9, unit="pt"))
+  theme(text=element_text(family="Times New Roman"))
+p1.f #really good draft figure
+
+p1.m <- ggplot(data=sable_m) +aes(y=Weight..gm., x=Length..mm.) + geom_point() +
+  labs(x="Length(mm)", y="Weight(gm)") +theme_cowplot(14) + theme(text=element_text(family="Times New Roman"))
+p1.m
+
+#combine graphs
+plot_grid (p1.f, p1.m, scale=0.95)
+
 #save the figure
 dev.new (width=2.75, height=1.83, unit= "in", noRStudioGD = T); lastplot()
 ggsave("Assigment9_fig1.tiff", width=dev.size()[1], height=dev.size()[2]);dev.off()
