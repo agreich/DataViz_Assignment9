@@ -46,8 +46,12 @@ p1.f <- ggplot(data=sable_f) +aes(y=Weight..gm., x=Length..mm.) + geom_point() +
   scale_x_continuous (limits=c(200,1000), expand=expansion (mult = c(0.05,0))) +
   scale_y_continuous(limits=c(0, 6000), expand=c(0,0))  +theme_cowplot(14)+ #need to add in margin expander
   theme(plot.margin=margin(t=9, r=16, l=9, b=9, unit="pt"))
-  theme(text=element_text(family="Times New Roman"))
+  theme(text=element_text(family="Times New Roman")) #control the fond size? 6 or 9 points
 p1.f #really good draft figure
+#print the really good draft figure?
+dev.new (width=5.62, height=4.22, unit= "in", noRStudioGD = T); p1.f
+ggsave("Assigment9_fig1_f.eps", width=dev.size()[1], height=dev.size()[2]);dev.off()
+
 
 p1.m <- ggplot(data=sable_m) +aes(y=Weight..gm., x=Length..mm.) + geom_point() +
   labs(x="Length(mm)", y="Weight(gm)") +theme_cowplot(14) + theme(text=element_text(family="Times New Roman"))
